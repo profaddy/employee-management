@@ -1,18 +1,16 @@
 from flask import Flask;
+from flask_restful import Api;
 from database.db import initialize_db;
-from database.models import Employee;
+from resources.routes import initialize_routes;
 
-from resources.employee import employees;
-
-app = Flask(__name__)
+app = Flask(__name__);
 
 app.config['MONGODB_SETTINGS'] = {
     'host': 'mongodb://localhost/employee-management'
 }
+api = Api(app);
 
 initialize_db(app);
-app.register_blueprint(employees)
-
-
+initialize_routes(api);
 app.config['DEBUG'] = True
 app.run()
